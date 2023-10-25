@@ -40,17 +40,20 @@ function mergeSort(array) {
   return sortedArray;
 }
 
-const Node = (data, left, right) => {
+const node = (data) => {
   return { data, left: null, right: null };
 };
 
 const Tree = (arr) => {
+  const sortedArr = mergeSort(arr);
   function insert(value) {}
 
   function del(value) {}
 
-  function buildTree() {
-    console.log(mergeSort([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]));
+  function buildTree(arr = sortedArr, l = 0, h) {
+    h = arr.length - 1;
+    const mid = (l + h) / 2;
+    const root = node(sortedArr[mid]);
   }
 
   return { insert, del, buildTree };
