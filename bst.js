@@ -45,22 +45,25 @@ const node = (data) => {
 };
 
 const Tree = (arr) => {
-  const sortedArr = mergeSort(arr);
+  const sortedArray = mergeSort(arr);
+
   function insert(value) {}
 
   function del(value) {}
 
-  function buildTree(arr = sortedArr, l = 0, h) {
-    h = arr.length - 1;
+  function buildTree(l = 0, h = sortedArray.length - 1) {
+    if (l > h) return null;
+
     const mid = (l + h) / 2;
-    const root = node(sortedArr[mid]);
+    const nodeOb = node(sortedArray[mid]);
+
+    nodeOb.left = buildTree(l, mid - 1);
+    nodeOb.right = buildTree(mid + 1, h);
+    return nodeOb;
   }
 
-  return { insert, del, buildTree };
+  return { insert, del, buildTree, root: buildTree(0, sortedArray.length - 1) };
 };
-
-const tree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-console.log(tree.buildTree());
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -74,3 +77,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
+
+const tree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+const root = tree.buildTree();
+prettyPrint(root);
