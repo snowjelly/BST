@@ -62,6 +62,9 @@ const Tree = (arr) => {
     if (rootNode === null) {
       return;
     }
+    if (value === rootNode.data) {
+      return rootNode;
+    }
     const newNode = node(value);
 
     if (value < rootNode.data) {
@@ -103,4 +106,6 @@ const tree = Tree([
   45, 40, 400, 23, 800, 900, 20, 2, 4, 5, 7, 9, 67, 6345, 324,
 ]);
 const root = tree.buildTree();
+prettyPrint(root);
+
 prettyPrint(root);
