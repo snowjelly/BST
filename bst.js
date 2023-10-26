@@ -54,7 +54,7 @@ const Tree = (arr) => {
   function buildTree(l = 0, h = sortedArray.length - 1) {
     if (l > h) return null;
 
-    const mid = (l + h) / 2;
+    const mid = Math.floor((l + h) / 2);
     const nodeOb = node(sortedArray[mid]);
 
     nodeOb.left = buildTree(l, mid - 1);
