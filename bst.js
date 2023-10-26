@@ -84,7 +84,24 @@ const Tree = (arr) => {
     }
   }
 
-  function del(value, rootNode = root) {}
+  function del(value, rootNode = root) {
+    if (rootNode === null) {
+      return;
+    }
+
+    if (rootNode.left === null && rootNode.right === null) {
+      rootNode = null;
+      return rootNode;
+    }
+
+    if (value < rootNode.data) {
+      rootNode.left = del(value, rootNode.left);
+      return rootNode;
+    } else if (value > rootNode.data) {
+      rootNode.right = del(value, rootNode.right);
+      return rootNode;
+    }
+  }
 
   return { insert, del, buildTree, root: buildTree(0, sortedArray.length - 1) };
 };
@@ -107,5 +124,5 @@ const tree = Tree([
 ]);
 const root = tree.buildTree();
 prettyPrint(root);
-
+tree.del(800);
 prettyPrint(root);
