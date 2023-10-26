@@ -47,8 +47,6 @@ const node = (data) => {
 const Tree = (arr) => {
   const sortedArray = mergeSort(arr);
 
-  function del(value) {}
-
   function buildTree(l = 0, h = sortedArray.length - 1) {
     if (l > h) return null;
 
@@ -60,44 +58,14 @@ const Tree = (arr) => {
     return nodeOb;
   }
 
-  function insert(value) {
-    let tmp = root;
-    if (tmp === null) {
+  function insert(value, rootNode = root) {
+    if (rootNode === null) {
       return;
     }
     const newNode = node(value);
-    while (tmp !== null) {
-      if (tmp.data === newNode.data) {
-        return new Error("Cannot add duplicate items");
-      }
-      if (newNode.data < tmp.data && tmp.left !== null) {
-        tmp = tmp.left;
-        console.log(tmp);
-      }
-      if (tmp === null) break;
-      if (newNode.data > tmp.data) {
-        if (tmp.right === null || tmp.right.right === null) break;
-        tmp = tmp.right;
-        console.log(tmp);
-      }
-      if (tmp.left === null) {
-        break;
-      }
-    }
-    if (tmp === null) return;
-    console.log({ newNode: newNode.data, tmp: tmp.data });
-    if (newNode.data < tmp.data) {
-      tmp.left = newNode;
-    }
-    if (newNode.data > tmp.data) {
-      const tmpRight = tmp.right;
-      newNode.right = tmpRight;
-      tmp.right = newNode;
-    }
-    if (newNode.data < tmp.right.data) {
-      tmp.left = newNode;
-    }
   }
+
+  function del(value, rootNode = root) {}
 
   return { insert, del, buildTree, root: buildTree(0, sortedArray.length - 1) };
 };
