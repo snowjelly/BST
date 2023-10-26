@@ -89,16 +89,20 @@ const Tree = (arr) => {
       return;
     }
 
-    if (rootNode.left === null && rootNode.right === null) {
-      rootNode = null;
-      return rootNode;
-    }
-
     if (value < rootNode.data) {
       rootNode.left = del(value, rootNode.left);
       return rootNode;
     } else if (value > rootNode.data) {
       rootNode.right = del(value, rootNode.right);
+      return rootNode;
+    }
+
+    if (rootNode.left === null && rootNode.right === null) {
+      rootNode = null;
+      return rootNode;
+    } else if (rootNode.left === null) {
+      const tmp = rootNode.right;
+      rootNode = tmp;
       return rootNode;
     }
   }
@@ -119,10 +123,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const tree = Tree([
-  45, 40, 400, 23, 800, 900, 20, 2, 4, 5, 7, 9, 67, 6345, 324,
-]);
+const tree = Tree([34, 20, 32, 30, 36, 40, 50, 70, 80, 85, 75, 60, 65]);
 const root = tree.buildTree();
 prettyPrint(root);
-tree.del(800);
+
 prettyPrint(root);
