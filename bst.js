@@ -152,6 +152,23 @@ const Tree = (arr) => {
     }
   }
 
+  function levelOrderRecursive(cb = null, queue = [root]) {
+    if (queue.length === 0) {
+      return;
+    }
+
+    const deQueue = queue.shift();
+    cb(deQueue);
+
+    if (deQueue.left !== null) {
+      queue = [...queue, deQueue.left];
+    }
+    if (deQueue.right !== null) {
+      queue = [...queue, deQueue.right];
+    }
+    levelOrderRecursive(cb, queue);
+  }
+
   return {
     insert,
     del,
@@ -159,6 +176,7 @@ const Tree = (arr) => {
     root: buildTree(0, sortedArray.length - 1),
     find,
     levelOrder,
+    levelOrderRecursive,
   };
 };
 
@@ -181,6 +199,6 @@ const tree = Tree([
 const root = tree.buildTree();
 prettyPrint(root);
 
-tree.levelOrder((result) => {
+tree.levelOrderRecursive((result) => {
   console.log(result);
 });
