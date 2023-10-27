@@ -129,12 +129,36 @@ const Tree = (arr) => {
     return rootNode;
   }
 
+  function levelOrder(cb = null) {
+    const queue = [];
+    const orderedArray = [];
+
+    queue.push(root);
+    while (queue.length !== 0) {
+      const deQueue = queue.shift();
+      orderedArray.push(deQueue);
+
+      if (deQueue.left !== null) {
+        queue.push(deQueue.left);
+      }
+      if (deQueue.right !== null) {
+        queue.push(deQueue.right);
+      }
+
+      cb(deQueue);
+    }
+    if (cb === null) {
+      return orderedArray;
+    }
+  }
+
   return {
     insert,
     del,
     buildTree,
     root: buildTree(0, sortedArray.length - 1),
     find,
+    levelOrder,
   };
 };
 
@@ -157,4 +181,6 @@ const tree = Tree([
 const root = tree.buildTree();
 prettyPrint(root);
 
-console.log(tree.find(80));
+tree.levelOrder((result) => {
+  console.log(result);
+});
