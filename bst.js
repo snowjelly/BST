@@ -118,7 +118,24 @@ const Tree = (arr) => {
     }
   }
 
-  return { insert, del, buildTree, root: buildTree(0, sortedArray.length - 1) };
+  function find(value, rootNode = root) {
+    while (value !== rootNode.data) {
+      if (value < rootNode.data) {
+        rootNode = rootNode.left;
+      } else if (value > rootNode.data) {
+        rootNode = rootNode.right;
+      }
+    }
+    return rootNode;
+  }
+
+  return {
+    insert,
+    del,
+    buildTree,
+    root: buildTree(0, sortedArray.length - 1),
+    find,
+  };
 };
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -140,4 +157,4 @@ const tree = Tree([
 const root = tree.buildTree();
 prettyPrint(root);
 
-prettyPrint(root);
+console.log(tree.find(80));
