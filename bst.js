@@ -152,13 +152,18 @@ const Tree = (arr) => {
     }
   }
 
-  function levelOrderRecursive(cb = null, queue = [root]) {
+  function levelOrderRecursive(cb = null, queue = [root], orderedArray = []) {
+    if (queue.length === 0 && cb === null) {
+      return orderedArray;
+    }
     if (queue.length === 0) {
       return;
     }
 
     const deQueue = queue.shift();
-    cb(deQueue);
+    if (cb !== null) {
+      cb(deQueue);
+    }
 
     if (deQueue.left !== null) {
       queue = [...queue, deQueue.left];
@@ -166,7 +171,13 @@ const Tree = (arr) => {
     if (deQueue.right !== null) {
       queue = [...queue, deQueue.right];
     }
-    levelOrderRecursive(cb, queue);
+
+    if (cb !== null) {
+      levelOrderRecursive(cb, queue);
+    } else {
+      orderedArray = levelOrderRecursive(cb, queue, [...orderedArray, deQueue]);
+      return orderedArray;
+    }
   }
 
   return {
@@ -199,6 +210,4 @@ const tree = Tree([
 const root = tree.buildTree();
 prettyPrint(root);
 
-tree.levelOrderRecursive((result) => {
-  console.log(result);
-});
+console.log(tree.levelOrderRecursive());
