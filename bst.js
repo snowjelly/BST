@@ -180,11 +180,11 @@ const Tree = (arr) => {
     }
   }
 
-  function inorder(cb = null, queue = [root], orderedArray = []) {
-    if (queue.length === 0 && cb === null) {
-      return orderedArray;
-    }
+  function inorder(cb = null, queue = [root]) {
     if (queue.length === 0) {
+      return;
+    }
+    if (cb === null) {
       return;
     }
 
@@ -192,26 +192,14 @@ const Tree = (arr) => {
 
     if (deQueue.left !== null) {
       queue = [...queue, deQueue.left];
-      if (cb !== null) {
-        inorder(cb, queue);
-      } else {
-        orderedArray = inorder(cb, queue, [...orderedArray, deQueue]);
-        return orderedArray;
-      }
+      inorder(cb, queue);
     }
 
-    if (cb !== null) {
-      cb(deQueue);
-    }
+    cb(deQueue);
 
     if (deQueue.right !== null) {
       queue = [...queue, deQueue.right];
-      if (cb !== null) {
-        inorder(cb, queue);
-      } else {
-        orderedArray = inorder(cb, queue, [...orderedArray, deQueue]);
-        return orderedArray;
-      }
+      inorder(cb, queue);
     }
   }
 
@@ -246,7 +234,6 @@ const tree = Tree([
 const root = tree.buildTree();
 prettyPrint(root);
 
-//console.log(tree.inorder());
 tree.inorder((result) => {
   console.log(result);
 });
