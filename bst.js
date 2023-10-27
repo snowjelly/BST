@@ -104,6 +104,17 @@ const Tree = (arr) => {
       const tmp = rootNode.right;
       rootNode = tmp;
       return rootNode;
+    } else {
+      let tmp = rootNode;
+      rootNode = rootNode.right;
+      while (rootNode.left !== null) {
+        rootNode = rootNode.left;
+      }
+      let tmpData = rootNode.data;
+
+      tmp = del(rootNode.data, tmp);
+      tmp.data = tmpData;
+      return tmp;
     }
   }
 
@@ -123,7 +134,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-const tree = Tree([34, 20, 32, 30, 36, 40, 50, 70, 80, 85, 75, 60, 65]);
+const tree = Tree([
+  34, 35, 543, 3452, 34, 654, 20, 32, 30, 36, 40, 50, 70, 80, 85, 75, 60, 65,
+]);
 const root = tree.buildTree();
 prettyPrint(root);
 
