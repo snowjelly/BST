@@ -206,6 +206,31 @@ const Tree = (arr) => {
     }
   }
 
+  function preorder(cb = null, queue = [root], orderedArray = []) {
+    if (queue.length === 0) return;
+
+    const deQueue = queue.shift();
+
+    if (cb !== null) {
+      cb(deQueue);
+    }
+    orderedArray.push(deQueue);
+
+    if (deQueue.left !== null) {
+      queue = [...queue, deQueue.left];
+      preorder(cb, queue, orderedArray);
+    }
+
+    if (deQueue.right !== null) {
+      queue = [...queue, deQueue.right];
+      preorder(cb, queue, orderedArray);
+    }
+
+    if (queue.length === 0 && cb === null) {
+      return orderedArray;
+    }
+  }
+
   return {
     insert,
     del,
@@ -215,6 +240,7 @@ const Tree = (arr) => {
     levelOrder,
     levelOrderRecursive,
     inorder,
+    preorder,
   };
 };
 
@@ -236,5 +262,3 @@ const tree = Tree([
 ]);
 const root = tree.buildTree();
 prettyPrint(root);
-
-console.log(tree.inorder());
