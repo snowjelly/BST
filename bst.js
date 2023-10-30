@@ -231,6 +231,31 @@ const Tree = (arr) => {
     }
   }
 
+  function postorder(cb = null, queue = [root], orderedArray = []) {
+    if (queue.length === 0) return;
+
+    const deQueue = queue.shift();
+
+    if (deQueue.left !== null) {
+      queue = [...queue, deQueue.left];
+      postorder(cb, queue, orderedArray);
+    }
+
+    if (deQueue.right !== null) {
+      queue = [...queue, deQueue.right];
+      postorder(cb, queue, orderedArray);
+    }
+
+    if (cb !== null) {
+      cb(deQueue);
+    }
+    orderedArray.push(deQueue);
+
+    if (queue.length === 0 && cb === null) {
+      return orderedArray;
+    }
+  }
+
   return {
     insert,
     del,
@@ -241,6 +266,7 @@ const Tree = (arr) => {
     levelOrderRecursive,
     inorder,
     preorder,
+    postorder,
   };
 };
 
