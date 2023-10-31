@@ -266,11 +266,10 @@ const Tree = (arr) => {
         if (result.data !== rootNode.data) {
           if (result.left === null || result.right === null) {
             if (result.left === null && result.right === null) {
-              cb(result);
-            } else {
-              // counter++;
-              // console.log(result);
+              //cb(result);
             }
+          } else {
+            cb(result);
           }
         }
       },
@@ -312,6 +311,7 @@ const tree = Tree([
 ]);
 const root = tree.buildTree();
 tree.insert(7000);
+tree.insert(37);
 prettyPrint(root);
 
 const rootNode = tree.find(60);
@@ -326,7 +326,54 @@ const rootNode = tree.find(60);
 let leftCounter = 0;
 let rightCounter = 0;
 let counter = 0;
+let divider = 2;
+let counterResult = 0;
 
 tree.printLeafNodes((result) => {
-  console.log(result);
+  counter++;
+  if (counter / divider === 1) {
+    counter = 1;
+    divider *= 2;
+  }
+  let tmpL = result;
+  let tmpR = result;
+  let counterL = 0;
+  let counterR = 0;
+  // console.log(result);
+  while (tmpL.left !== null) {
+    console.log({ tmpL: tmpL.left });
+    tmpL = tmpL.left;
+    counterL++;
+  }
+  while (tmpR.right !== null) {
+    console.log({ tmpR: tmpR.right });
+    tmpR = tmpR.right;
+    counterR++;
+  }
+
+  if (counterL > counterResult && counterL > counterR) {
+    counterResult = counterL;
+  } else if (counterR > counterResult && counterR > counterL) {
+    counterResult = counterR;
+  }
+
+  console.log({ counterL, counterR });
+
+  // if (result.left.left !== null) {
+  //   console.log(result.left.left);
+  // }
+  // if (result.right.right !== null) {
+  //   console.log(result.right.right);
+  // }
 }, rootNode);
+
+// tree.printLeafNodes((result) => {
+//   counter++;
+//   if (counter / divider === 1) {
+//     counter = 1;
+//     divider *= 2;
+//   }
+//   console.log(result);
+// }, rootNode);
+
+console.log(counterResult);
