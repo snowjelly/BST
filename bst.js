@@ -260,6 +260,24 @@ const Tree = (arr) => {
     const rootNode = find(node);
   }
 
+  function printLeafNodes(cb, rootNode = root) {
+    levelOrderRecursive(
+      (result) => {
+        if (result.data !== rootNode.data) {
+          if (result.left === null || result.right === null) {
+            if (result.left === null && result.right === null) {
+              cb(result);
+            } else {
+              // counter++;
+              // console.log(result);
+            }
+          }
+        }
+      },
+      [rootNode]
+    );
+  }
+
   return {
     insert,
     del,
@@ -272,6 +290,7 @@ const Tree = (arr) => {
     preorder,
     postorder,
     height,
+    printLeafNodes,
   };
 };
 
@@ -307,22 +326,7 @@ const rootNode = tree.find(60);
 let leftCounter = 0;
 let rightCounter = 0;
 let counter = 0;
-tree.levelOrderRecursive(
-  (result) => {
-    if (result.data !== rootNode.data) {
-      if (result.left === null || result.right === null) {
-        if (result.left === null && result.right === null) {
-          console.log(result);
-        } else {
-          // counter++;
-          // console.log(result);
-        }
-      }
-    }
-  },
-  [rootNode]
-);
 
-console.log(counter);
-
-function test() {}
+tree.printLeafNodes((result) => {
+  console.log(result);
+}, rootNode);
