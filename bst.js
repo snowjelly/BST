@@ -263,14 +263,12 @@ const Tree = (arr) => {
   function printLeafNodes(cb, rootNode = root) {
     levelOrderRecursive(
       (result) => {
-        if (result.data !== rootNode.data) {
-          if (result.left === null || result.right === null) {
-            if (result.left === null && result.right === null) {
-              //cb(result);
-            }
-          } else {
-            cb(result);
+        if (result.left === null || result.right === null) {
+          if (result.left === null && result.right === null) {
+            //cb(result);
           }
+        } else {
+          cb(result);
         }
       },
       [rootNode]
