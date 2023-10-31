@@ -129,11 +129,9 @@ const Tree = (arr) => {
     return rootNode;
   }
 
-  function levelOrder(cb = null) {
-    const queue = [];
+  function levelOrder(cb = null, queue = [root]) {
     const orderedArray = [];
 
-    queue.push(root);
     while (queue.length !== 0) {
       const deQueue = queue.shift();
       orderedArray.push(deQueue);
@@ -145,7 +143,9 @@ const Tree = (arr) => {
         queue.push(deQueue.right);
       }
 
-      cb(deQueue);
+      if (cb !== null) {
+        cb(deQueue);
+      }
     }
     if (cb === null) {
       return orderedArray;
@@ -256,6 +256,10 @@ const Tree = (arr) => {
     }
   }
 
+  function height(node) {
+    const rootNode = find(node);
+  }
+
   return {
     insert,
     del,
@@ -267,6 +271,7 @@ const Tree = (arr) => {
     inorder,
     preorder,
     postorder,
+    height,
   };
 };
 
@@ -287,4 +292,37 @@ const tree = Tree([
   34, 35, 543, 3452, 34, 654, 20, 32, 30, 36, 40, 50, 70, 80, 85, 75, 60, 65,
 ]);
 const root = tree.buildTree();
+tree.insert(7000);
 prettyPrint(root);
+
+const rootNode = tree.find(60);
+
+// tree.inorder(
+//   (result) => {
+//     console.log({ inorder: result });
+//   },
+//   [rootNode]
+// );
+
+let leftCounter = 0;
+let rightCounter = 0;
+let counter = 0;
+tree.levelOrderRecursive(
+  (result) => {
+    if (result.data !== rootNode.data) {
+      if (result.left === null || result.right === null) {
+        if (result.left === null && result.right === null) {
+          console.log(result);
+        } else {
+          // counter++;
+          // console.log(result);
+        }
+      }
+    }
+  },
+  [rootNode]
+);
+
+console.log(counter);
+
+function test() {}
