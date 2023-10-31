@@ -280,6 +280,21 @@ const Tree = (arr) => {
     return counter;
   }
 
+  function isBalanced() {
+    let isBalanced = null;
+    levelOrderRecursive((result) => {
+      if (isBalanced === false) return;
+      if (result.left === null || result.right === null) {
+        if (result.left !== null || result.right !== null) {
+          isBalanced = false;
+        } else {
+          isBalanced = true;
+        }
+      }
+    });
+    return isBalanced;
+  }
+
   return {
     insert,
     del,
@@ -293,6 +308,7 @@ const Tree = (arr) => {
     postorder,
     height,
     depth,
+    isBalanced,
   };
 };
 
@@ -313,9 +329,5 @@ const tree = Tree([
   34, 35, 543, 3452, 34, 654, 20, 32, 30, 36, 40, 50, 70, 80, 85, 75, 60, 65,
 ]);
 const root = tree.buildTree();
-tree.insert(7000);
-tree.insert(37);
-tree.insert(38);
-tree.insert(39);
 
 prettyPrint(root);
