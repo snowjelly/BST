@@ -267,6 +267,19 @@ const Tree = (arr) => {
     }
   }
 
+  function depth(node, rootNode = root) {
+    let counter = 0;
+    while (node !== rootNode.data) {
+      counter++;
+      if (node < rootNode.data) {
+        rootNode = rootNode.left;
+      } else if (node > rootNode.data) {
+        rootNode = rootNode.right;
+      }
+    }
+    return counter;
+  }
+
   return {
     insert,
     del,
@@ -279,6 +292,7 @@ const Tree = (arr) => {
     preorder,
     postorder,
     height,
+    depth,
   };
 };
 
@@ -305,6 +319,3 @@ tree.insert(38);
 tree.insert(39);
 
 prettyPrint(root);
-
-const n = tree.find(60);
-console.log(tree.height(n));
