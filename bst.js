@@ -371,7 +371,11 @@ function driver() {
     }
 
     arr.push(rand);
-    populateArray(arr);
+    if (lessThan100) {
+      populateArray(arr);
+    } else {
+      populateArray(arr, false);
+    }
     return arr;
   }
 
@@ -384,13 +388,43 @@ function driver() {
     }
   }
 
+  prettyPrint(tree.root);
+  console.log(tree.isBalanced());
+  tree.levelOrderRecursive((result) => {
+    console.log({ levelOrder: result });
+  });
+  tree.preorder((result) => {
+    console.log({ preOrder: result });
+  });
+  tree.postorder((result) => {
+    console.log({ postOrder: result });
+  });
+  tree.inorder((result) => {
+    console.log({ inOrder: result });
+  });
+
   const greaterThan100Arr = populateArray([], false);
   insertArray(greaterThan100Arr);
 
   prettyPrint(tree.root);
   console.log(tree.isBalanced());
+
   tree.rebalance();
+
   prettyPrint(tree.root);
   console.log(tree.isBalanced());
+
+  tree.levelOrderRecursive((result) => {
+    console.log({ levelOrder: result });
+  });
+  tree.preorder((result) => {
+    console.log({ preOrder: result });
+  });
+  tree.postorder((result) => {
+    console.log({ postOrder: result });
+  });
+  tree.inorder((result) => {
+    console.log({ inOrder: result });
+  });
 }
-console.log(driver());
+driver();
