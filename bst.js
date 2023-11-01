@@ -287,18 +287,18 @@ const Tree = (arr) => {
   }
 
   function isBalanced() {
-    let isBalanced = null;
-    levelOrderRecursive((result) => {
-      if (isBalanced === false) return;
-      if (result.left === null || result.right === null) {
-        if (result.left !== null || result.right !== null) {
-          isBalanced = false;
-        } else {
-          isBalanced = true;
-        }
+    let balanced;
+    inorder((result) => {
+      if (balanced === false) return;
+      const difference = height(result.left) - height(result.right);
+      if (difference < 1) {
+        balanced = true;
+      } else {
+        balanced = false;
+        return;
       }
     });
-    return isBalanced;
+    return balanced;
   }
 
   function rebalance() {
@@ -307,6 +307,7 @@ const Tree = (arr) => {
       arr.push(result.data);
     });
     this.root = buildTree(0, arr.length - 1, arr);
+    root = this.root;
     return this.root;
   }
 
@@ -344,16 +345,52 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const tree = Tree([
   34, 35, 543, 3452, 34, 654, 20, 32, 30, 36, 40, 50, 70, 80, 85, 75, 60, 65,
 ]);
-tree.insert(1);
-tree.insert(2);
-tree.insert(3);
-tree.insert(4);
-tree.insert(5);
-tree.insert(6);
-tree.insert(7);
 
-prettyPrint(tree.root);
+function driver() {
+  function getRandLessThan100() {
+    return Math.floor(Math.random() * 100) + 1;
+  }
 
-tree.rebalance();
+  function getRandGreaterThan100() {
+    return Math.floor(Math.random() * 100) + 1 + 100;
+  }
 
-prettyPrint(tree.root);
+  function populateArray(arr = [], lessThan100 = true) {
+    if (arr.length === 20) return arr;
+    let rand;
+    if (lessThan100) {
+      rand = getRandLessThan100();
+      while (arr.indexOf(rand) !== -1) {
+        rand = getRandLessThan100();
+      }
+    } else {
+      rand = getRandGreaterThan100();
+      while (arr.indexOf(rand) !== -1) {
+        rand = getRandGreaterThan100();
+      }
+    }
+
+    arr.push(rand);
+    populateArray(arr);
+    return arr;
+  }
+
+  const arr = populateArray();
+  const tree = Tree(arr);
+
+  function insertArray(arr) {
+    while (arr.shift() !== undefined) {
+      tree.insert(arr[0]);
+    }
+  }
+
+  const greaterThan100Arr = populateArray([], false);
+  insertArray(greaterThan100Arr);
+
+  prettyPrint(tree.root);
+  console.log(tree.isBalanced());
+  tree.rebalance();
+  prettyPrint(tree.root);
+  console.log(tree.isBalanced());
+}
+console.log(driver());
