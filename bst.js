@@ -47,16 +47,22 @@ const node = (data) => {
 const Tree = (arr) => {
   const sortedArray = mergeSort(arr);
 
-  function buildTree(l = 0, h = sortedArray.length - 1) {
+  function buildTree(
+    l = 0,
+    h = sortedArray.length - 1,
+    sortedArr = sortedArray
+  ) {
     if (l > h) return null;
 
     const mid = Math.floor((l + h) / 2);
-    const nodeOb = node(sortedArray[mid]);
+    const nodeOb = node(sortedArr[mid]);
 
-    nodeOb.left = buildTree(l, mid - 1);
-    nodeOb.right = buildTree(mid + 1, h);
+    nodeOb.left = buildTree(l, mid - 1, sortedArr);
+    nodeOb.right = buildTree(mid + 1, h, sortedArr);
     return nodeOb;
   }
+
+  let root = buildTree();
 
   function insert(value, rootNode = root) {
     if (rootNode === null) {
@@ -295,11 +301,20 @@ const Tree = (arr) => {
     return isBalanced;
   }
 
+  function rebalance() {
+    const arr = [];
+    inorder((result) => {
+      arr.push(result.data);
+    });
+    this.root = buildTree(0, arr.length - 1, arr);
+    return this.root;
+  }
+
   return {
     insert,
     del,
     buildTree,
-    root: buildTree(0, sortedArray.length - 1),
+    root,
     find,
     levelOrder,
     levelOrderRecursive,
@@ -309,6 +324,7 @@ const Tree = (arr) => {
     height,
     depth,
     isBalanced,
+    rebalance,
   };
 };
 
@@ -328,6 +344,16 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const tree = Tree([
   34, 35, 543, 3452, 34, 654, 20, 32, 30, 36, 40, 50, 70, 80, 85, 75, 60, 65,
 ]);
-const root = tree.buildTree();
+tree.insert(1);
+tree.insert(2);
+tree.insert(3);
+tree.insert(4);
+tree.insert(5);
+tree.insert(6);
+tree.insert(7);
 
-prettyPrint(root);
+prettyPrint(tree.root);
+
+tree.rebalance();
+
+prettyPrint(tree.root);
